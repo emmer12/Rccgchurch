@@ -46,14 +46,17 @@
                                     </div>
                                 </ul>
                             </li>
+                            <router-link to="/contact-us" v-slot="{ navigate }">
+                                <li @click="navigate">Contact</li>
+                            </router-link>
                             <router-link to="#" v-slot="{ navigate }">
                                 <li @click="navigate">Sermons</li>
                             </router-link>
-                            <router-link to="#" v-slot="{ navigate }">
+                            <router-link to="/events" v-slot="{ navigate }">
                                 <li @click="navigate">Events</li>
                             </router-link>
-                            <router-link to="#" v-slot="{ navigate }">
-                                <li @click="navigate">Blog</li>
+                            <router-link to="/gallery" v-slot="{ navigate }">
+                                <li @click="navigate">Gallery</li>
                             </router-link>
                         </ul>
                         <ul class="right">
@@ -107,12 +110,18 @@
                                 <router-link to="#" v-slot="{ navigate }">
                                     <li @click="navigate">Sermons</li>
                                 </router-link>
-                                <router-link to="#" v-slot="{ navigate }">
+                                <router-link to="/events" v-slot="{ navigate }">
                                     <li @click="navigate">Events</li>
                                 </router-link>
-                                <router-link to="#" v-slot="{ navigate }">
-                                    <li @click="navigate">Blog</li>
+                                <router-link
+                                    to="/gallery"
+                                    v-slot="{ navigate }"
+                                >
+                                    <li @click="navigate">Gallery</li>
                                 </router-link>
+                                <!-- <router-link to="#" v-slot="{ navigate }">
+                                    <li @click="navigate">Blog</li>
+                                </router-link> -->
                             </ul>
                             <ul class="right">
                                 <Button label="Sign up" />
@@ -156,13 +165,18 @@ export default {
 
 <style lang="scss" scoped>
 .navigation {
-    background: #161722;
-    z-index: 999;
+    background: #fff;
+    /* position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #8c408869; */
+    z-index: 9999;
     position: relative;
     .wrapper {
         display: flex;
         height: 80px;
-        color: rgba($color: #fff, $alpha: 0.9);
+        color: rgba($color: #000, $alpha: 0.9);
         align-items: center;
 
         .menu {
@@ -171,17 +185,16 @@ export default {
             flex: 1;
             ul {
                 li {
-                    color: rgba($color: #fff, $alpha: 0.9);
+                    color: rgba($color: #161722, $alpha: 0.9);
                     padding: 15px;
-                    font-size: 18px;
+                    font-size: 16px;
                     font-weight: 600;
-                    text-transform: uppercase;
                     position: relative;
                     cursor: pointer;
                     transition: 0.3s;
 
                     &:hover {
-                        color: #fff;
+                        color: #000;
                     }
                 }
             }
@@ -189,7 +202,7 @@ export default {
             .dropdown {
                 position: absolute;
                 left: 0px;
-                background: #161722;
+                background: #fff;
                 width: max-content;
                 max-height: 0px;
                 overflow-y: hidden;
@@ -198,6 +211,11 @@ export default {
 
                 li {
                     font-size: 16px;
+                    transition: 0.2s;
+
+                    &:hover {
+                        margin-left: 10px;
+                    }
                 }
 
                 .dropdown-wrap {
@@ -237,7 +255,7 @@ export default {
     top: calc(50% - 1px);
     right: 15px;
     width: 30px;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #444;
     transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 .menu-btn:before {
@@ -261,17 +279,18 @@ export default {
 }
 #active:checked + .menu-btn:before {
     transform: rotate(45deg);
-    border-color: #fff;
+    border-color: #444;
 }
 #active:checked + .menu-btn:after {
     transform: rotate(-45deg);
-    border-color: #fff;
+    border-color: #444;
 }
 
 .m-wrapper {
     height: calc(100vh - 80px);
     width: 300px;
-    background: #161722;
+    /* background: #161722; */
+    background: #fff;
     position: absolute;
     top: 80px;
     left: -300px;

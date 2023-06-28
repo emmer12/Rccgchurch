@@ -4,10 +4,9 @@
         :breadcrumbs="page.breadcrumbs"
         :actions="page.actions"
         @action="onAction"
-        :is-loading="page.loading"
     >
         <Panel>
-            <Form id="edit-user" @submit.prevent="onSubmit">
+            <Form id="create-event" @submit.prevent="onSubmit">
                 <TextInput
                     class="mb-4"
                     type="text"
@@ -24,21 +23,14 @@
                     v-model="form.description"
                     :label="trans('Description')"
                 />
+
                 <TextInput
                     class="mb-4"
-                    type="datetime-local"
-                    name="date"
-                    v-model="form.datetime"
+                    type="text"
                     :required="true"
-                    :label="trans('Date')"
-                />
-                <TextInput
-                    class="mb-4"
-                    type="location"
-                    :required="true"
-                    name="location"
-                    v-model="form.location"
-                    :label="trans('Location')"
+                    name="link"
+                    v-model="form.link"
+                    :label="trans('Link')"
                 />
 
                 <FileInput
@@ -55,13 +47,9 @@
 </template>
 
 <script>
-import { defineComponent, onBeforeMount, reactive, ref } from "vue";
+import { defineComponent, reactive } from "vue";
 import { trans } from "@/helpers/i18n";
-import { fillObject, reduceProperties } from "@/helpers/data";
-import { useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
-import { toUrl } from "@/helpers/routing";
-import EventService from "@/services/EventService";
 import Button from "@/views/components/input/Button";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
@@ -69,6 +57,9 @@ import Alert from "@/views/components/Alert";
 import Panel from "@/views/components/Panel";
 import Page from "@/views/layouts/Page";
 import FileInput from "@/views/components/input/FileInput";
+import SermonService from "@/services/SermonService";
+import { clearObject, reduceProperties } from "@/helpers/data";
+import { toUrl } from "@/helpers/routing";
 import Form from "@/views/components/Form";
 
 export default defineComponent({
@@ -84,27 +75,24 @@ export default defineComponent({
     },
     setup() {
         const { user } = useAuthStore();
-        const route = useRoute();
         const form = reactive({
             title: "",
             description: "",
-            datetime: "",
-            location: "",
+            link: "",
             display: "",
         });
 
         const page = reactive({
-            id: "edit_event",
-            title: trans("Events Edit"),
+            id: "create_services",
+            title: trans("Create Services"),
             filters: false,
-            loading: true,
             breadcrumbs: [
                 {
-                    name: trans("Events"),
-                    to: toUrl("/events/list"),
+                    name: trans("Sermons"),
+                    to: toUrl("/sermons/list"),
                 },
                 {
-                    name: trans("Edit Events"),
+                    name: trans("Create Sermons"),
                     active: true,
                 },
             ],
@@ -113,26 +101,19 @@ export default defineComponent({
                     id: "back",
                     name: trans("global.buttons.back"),
                     icon: "fa fa-angle-left",
-                    to: toUrl("/events/list"),
+                    to: toUrl("/sermons/list"),
                     theme: "outline",
                 },
                 {
                     id: "submit",
-                    name: trans("global.buttons.update"),
+                    name: trans("global.buttons.save"),
                     icon: "fa fa-save",
                     type: "submit",
                 },
             ],
         });
 
-        const service = new EventService();
-
-        onBeforeMount(() => {
-            service.edit(route.params.id).then((response) => {
-                fillObject(form, response.data.model);
-                page.loading = false;
-            });
-        });
+        const service = new SermonService();
 
         function onAction(data) {
             switch (data.action.id) {
@@ -143,7 +124,9 @@ export default defineComponent({
         }
 
         function onSubmit() {
-            service.handleUpdate("edit-event", route.params.id, form);
+            service.handleCreate("create-event", form).then(() => {
+                clearObject(form);
+            });
             return false;
         }
 
@@ -151,9 +134,9 @@ export default defineComponent({
             trans,
             user,
             form,
+            page,
             onSubmit,
             onAction,
-            page,
         };
     },
 });

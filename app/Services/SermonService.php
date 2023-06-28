@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Http\Resources\EventResource;
-use App\Models\Event;
-use App\Models\Events;
+use App\Http\Resources\SermonResource;
+use App\Models\Sermon;
 use App\Models\User;
 use App\Services\Media\MediaService;
 use App\Traits\Filterable;
@@ -16,7 +16,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
-class EventService
+class SermonService
 {
 
     /**
@@ -35,18 +35,18 @@ class EventService
 
     /**
      * Get a single resource from the database
-     * @param  Event  $eent
-     * @return EventResource
+     * @param  Sermon  $sermon
+     * @return SermonResource
      */
-    public function get(Event $event)
+    public function get(Sermon $sermon)
     {
-        return new EventResource($event);
+        return new SermonResource($sermon);
     }
 
     public function getBySlug($slug)
     {
-        $event = Event::where('slug', $slug)->firstOrFail();
-        return new EventResource($event);
+        $sermon = Sermon::where('slug', $slug)->firstOrFail();
+        return new SermonResource($sermon);
     }
 
 
@@ -57,7 +57,7 @@ class EventService
      */
     public function index($data)
     {
-        $query = Event::query();
+        $query = Sermon::query();
         if (!empty($data['search'])) {
             $query = $query->search($data['search']);
         }
@@ -70,7 +70,7 @@ class EventService
 
         //         dd(vsprintf(str_replace('?', '%s', str_replace('?', "'?'", $query->toSql())), $query->getBindings()));
 
-        return EventResource::collection($query->paginate(10));
+        return SermonResource::collection($query->paginate(10));
     }
 
     /**
@@ -85,11 +85,11 @@ class EventService
         $display = Data::take($data, 'display');
         $data['slug'] = Str::slug($data['title']);
 
-        $record = Event::query()->create($data);
+        $record = Sermon::query()->create($data);
         if (!empty($record)) {
             // Set avatar
             if (!empty($display)) {
-                $filename = $this->mediaService->storeDisplay($display, 'public', 'event');
+                $filename = $this->mediaService->storeDisplay($display, 'public', 'sermon');
                 if (!empty($filename)) {
                     $record->update(['display' => $filename]);
                 }
@@ -102,23 +102,22 @@ class EventService
 
     /**
      * Updates resource in the database
-     * @param  Event|Model  $event
+     * @param  Sermon|Model  $sermon
      * @param  array  $data
      * @return bool
      */
-    public function update(Event $event, array $data)
+    public function update(Sermon $sermon, array $data)
     {
         $data = $this->clean($data);
 
-
         if (isset($data['display']) && $data['display']) {
-            $filename = $this->mediaService->storeDisplay($data['display'], 'public', 'event');
+            $filename = $this->mediaService->storeDisplay($data['display'], 'public', 'sermon');
             if ($filename) {
                 $data['display'] = $filename;
             }
-            unset($data['avatar']);
+            unset($data['display']);
         }
-        return $event->update($data);
+        return $sermon->update($data);
     }
 
 
@@ -128,9 +127,9 @@ class EventService
      * @param  User|Model  $user
      * @return bool
      */
-    public function delete(Event $event)
+    public function delete(Sermon $sermon)
     {
-        return $event->delete();
+        return $sermon->delete();
     }
 
     /**

@@ -52,6 +52,10 @@ export default defineComponent({
             type: String,
             default: null,
         },
+        size: {
+            type: String,
+            default: "",
+        },
     },
     emits: ["click"],
     setup(props, { emit }) {
@@ -61,7 +65,7 @@ export default defineComponent({
 
         const classes = computed(() => {
             let value =
-                "px-4 py-2 border border-transparent text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-center transition ";
+                "border rounded-full border-transparent text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-center transition ";
             switch (props.theme) {
                 case "success":
                     value +=
@@ -87,6 +91,24 @@ export default defineComponent({
                 default:
                     value +=
                         "text-white bg-theme-600 hover:bg-theme-800 focus:bg-theme-800 focus:ring-theme-800";
+                    break;
+            }
+
+            switch (props.size) {
+                case "lg":
+                    value += " px-6 py-3 text-md";
+                    break;
+                case "md":
+                    value += " px-4 py-2 text-md";
+                    break;
+                case "sm":
+                    value += " px-5 py-2 text-sm";
+                    break;
+                case "xs":
+                    value += " px-3 py-1 text-xs";
+                    break;
+                default:
+                    value += " px-6 py-3 text-md";
                     break;
             }
 

@@ -260,6 +260,22 @@ export default {
                     to: "/panel/events/list",
                 },
                 {
+                    name: trans("Sermon"),
+                    icon: "",
+                    showDesktop: true,
+                    showMobile: true,
+                    requiresAbility: getAbilitiesForRoute("*"),
+                    to: "/panel/sermons/list",
+                },
+                {
+                    name: trans("Gallery"),
+                    icon: "",
+                    showDesktop: true,
+                    showMobile: true,
+                    requiresAbility: getAbilitiesForRoute("*"),
+                    to: "/panel/gallery/list",
+                },
+                {
                     name: trans("global.phrases.sign_out"),
                     icon: "sign-out",
                     showDesktop: false,

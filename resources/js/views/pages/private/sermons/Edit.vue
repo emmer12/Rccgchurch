@@ -24,21 +24,14 @@
                     v-model="form.description"
                     :label="trans('Description')"
                 />
+
                 <TextInput
                     class="mb-4"
-                    type="datetime-local"
-                    name="date"
-                    v-model="form.datetime"
+                    type="text"
                     :required="true"
-                    :label="trans('Date')"
-                />
-                <TextInput
-                    class="mb-4"
-                    type="location"
-                    :required="true"
-                    name="location"
-                    v-model="form.location"
-                    :label="trans('Location')"
+                    name="link"
+                    v-model="form.link"
+                    :label="trans('Link')"
                 />
 
                 <FileInput
@@ -61,7 +54,7 @@ import { fillObject, reduceProperties } from "@/helpers/data";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { toUrl } from "@/helpers/routing";
-import EventService from "@/services/EventService";
+import SermonService from "@/services/SermonService";
 import Button from "@/views/components/input/Button";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
@@ -88,23 +81,22 @@ export default defineComponent({
         const form = reactive({
             title: "",
             description: "",
-            datetime: "",
-            location: "",
+            link: "",
             display: "",
         });
 
         const page = reactive({
             id: "edit_event",
-            title: trans("Events Edit"),
+            title: trans("Sermon Edit"),
             filters: false,
             loading: true,
             breadcrumbs: [
                 {
-                    name: trans("Events"),
-                    to: toUrl("/events/list"),
+                    name: trans("Sermons"),
+                    to: toUrl("/sermons/list"),
                 },
                 {
-                    name: trans("Edit Events"),
+                    name: trans("Edit Sermons"),
                     active: true,
                 },
             ],
@@ -113,7 +105,7 @@ export default defineComponent({
                     id: "back",
                     name: trans("global.buttons.back"),
                     icon: "fa fa-angle-left",
-                    to: toUrl("/events/list"),
+                    to: toUrl("/sermons/list"),
                     theme: "outline",
                 },
                 {
@@ -125,7 +117,7 @@ export default defineComponent({
             ],
         });
 
-        const service = new EventService();
+        const service = new SermonService();
 
         onBeforeMount(() => {
             service.edit(route.params.id).then((response) => {
@@ -143,7 +135,7 @@ export default defineComponent({
         }
 
         function onSubmit() {
-            service.handleUpdate("edit-event", route.params.id, form);
+            service.handleUpdate("edit-sermons", route.params.id, form);
             return false;
         }
 

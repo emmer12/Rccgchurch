@@ -2,21 +2,20 @@
 
 namespace App\Services;
 
-use App\Http\Resources\EventResource;
-use App\Models\Event;
-use App\Models\Events;
+use App\Http\Resources\GalleryResource;
+use App\Models\Gallery;
+use App\Models\Sermon;
 use App\Models\User;
 use App\Services\Media\MediaService;
 use App\Traits\Filterable;
 use App\Utilities\Data;
-use Bouncer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
-class EventService
+class GalleryService
 {
 
     /**
@@ -35,18 +34,18 @@ class EventService
 
     /**
      * Get a single resource from the database
-     * @param  Event  $eent
-     * @return EventResource
+     * @param  Gallery  $gallery
+     * @return GalleryResource
      */
-    public function get(Event $event)
+    public function get(Gallery $gallery)
     {
-        return new EventResource($event);
+        return new GalleryResource($gallery);
     }
 
     public function getBySlug($slug)
     {
-        $event = Event::where('slug', $slug)->firstOrFail();
-        return new EventResource($event);
+        $gallery = Gallery::where('slug', $slug)->firstOrFail();
+        return new GalleryResource($gallery);
     }
 
 
@@ -57,7 +56,7 @@ class EventService
      */
     public function index($data)
     {
-        $query = Event::query();
+        $query = Gallery::query();
         if (!empty($data['search'])) {
             $query = $query->search($data['search']);
         }
@@ -70,7 +69,7 @@ class EventService
 
         //         dd(vsprintf(str_replace('?', '%s', str_replace('?', "'?'", $query->toSql())), $query->getBindings()));
 
-        return EventResource::collection($query->paginate(10));
+        return GalleryResource::collection($query->paginate(50));
     }
 
     /**
@@ -80,19 +79,12 @@ class EventService
      */
     public function create(array $data)
     {
-        $data = $this->clean($data);
-
         $display = Data::take($data, 'display');
-        $data['slug'] = Str::slug($data['title']);
 
-        $record = Event::query()->create($data);
-        if (!empty($record)) {
-            // Set avatar
-            if (!empty($display)) {
-                $filename = $this->mediaService->storeDisplay($display, 'public', 'event');
-                if (!empty($filename)) {
-                    $record->update(['display' => $filename]);
-                }
+        if (!empty($display)) {
+            $filename = $this->mediaService->storeDisplay($display, 'public', 'sermon');
+            if (!empty($filename)) {
+                $record = Gallery::query()->create(['display' => $filename]);
             }
             return $record->fresh();
         } else {
@@ -100,37 +92,15 @@ class EventService
         }
     }
 
-    /**
-     * Updates resource in the database
-     * @param  Event|Model  $event
-     * @param  array  $data
-     * @return bool
-     */
-    public function update(Event $event, array $data)
-    {
-        $data = $this->clean($data);
-
-
-        if (isset($data['display']) && $data['display']) {
-            $filename = $this->mediaService->storeDisplay($data['display'], 'public', 'event');
-            if ($filename) {
-                $data['display'] = $filename;
-            }
-            unset($data['avatar']);
-        }
-        return $event->update($data);
-    }
-
-
 
     /**
      * Deletes resource in the database
-     * @param  User|Model  $user
+     * @param  Gallery|Model  $gallery
      * @return bool
      */
-    public function delete(Event $event)
+    public function delete(Gallery $gallery)
     {
-        return $event->delete();
+        return $gallery->delete();
     }
 
     /**

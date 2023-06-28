@@ -21,6 +21,9 @@
                                 <h4 class="heading">Quick link</h4>
                                 <ul>
                                     <router-link to="#" v-slot="{ navigate }">
+                                        <li @click="navigate">Give</li>
+                                    </router-link>
+                                    <router-link to="#" v-slot="{ navigate }">
                                         <li @click="navigate">About Us</li>
                                     </router-link>
                                     <router-link to="#" v-slot="{ navigate }">

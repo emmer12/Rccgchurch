@@ -4,8 +4,12 @@
             <div class="container-x">
                 <div class="flex flex-wrap">
                     <div class="content">
-                        <h4 class="mb-4">Welcome to our church</h4>
-                        <h2 class="mb-8">Become a part of our community</h2>
+                        <h4 class="mb-4 title" ref="title">
+                            Welcome to our church
+                        </h4>
+                        <h2 class="mb-8 title-2">
+                            Become a part of our community
+                        </h2>
 
                         <!-- <Button class="mb-16" label="Learn More" /> -->
                         <div class="store-i flex item-center mb-16">
@@ -29,6 +33,27 @@
                 </div>
             </div>
             <div class="bs"></div>
+        </div>
+
+        <div class="mission">
+            <div class="wrapper">
+                <div class="img">
+                    <img src="" />
+                </div>
+                <div>
+                    <p>
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit. Fugiat exercitationem esse quidem hic, excepturi,
+                        voluptatum sit, eaque deleniti accusamus quae sint?
+                        Temporibus quasi in molestias alias perferendis, natus
+                        quibusdam minus.
+                    </p>
+
+                    <div class="action">
+                        <Button size="lg" label="Find Us" />
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="f-section">
@@ -95,9 +120,36 @@
                     </div>
                     <div class="img flex-1">
                         <img
-                            src="/assets/images/d1.jpeg"
+                            src="/assets/images/i3.jpg"
                             alt="Pastor Gbolahan"
                         />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="event-section">
+            <div class="container-x">
+                <div class="heading">
+                    <h2>Upcoming Events</h2>
+                </div>
+
+                <div class="my-[30px]">
+                    <div
+                        class="body"
+                        v-if="
+                            results.records &&
+                            results.records.length &&
+                            !results.loading
+                        "
+                    >
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <EventCard
+                                v-for="event in results.records"
+                                :event="event"
+                                :key="event.id"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -114,10 +166,87 @@
 <script>
 import Guest from "@/views/layouts/Guest";
 import AppDownload from "@/views/components/AppDownload";
+import gsap from "gsap";
+import EventCard from "@/views/components/EventCard.vue";
+import EventService from "@/services/EventService";
+import { reactive, onMounted } from "vue";
+import { prepareQuery } from "@/helpers/api";
+import Spinner from "@/views/components/icons/Spinner";
+import { trans } from "@/helpers/i18n";
+
+import ScrollTrigger from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+
 export default {
     components: {
         Guest,
         AppDownload,
+        EventCard,
+        Spinner,
+    },
+    mounted() {
+        gsap.timeline()
+            .from(".title", {
+                x: -50,
+                opacity: 0,
+            })
+            .from(".title-2", {
+                x: -50,
+                opacity: 0,
+            })
+            .from(".store-i,.note", {
+                opacity: 0,
+            });
+
+        gsap.from(".box-right div", {
+            scrollTrigger: ".box-right div",
+            scale: 0.7,
+            duration: 1,
+            stagger: "0.2",
+            ease: "Back.easeOut",
+        });
+    },
+    setup() {
+        const service = new EventService();
+
+        const mainQuery = reactive({
+            page: 1,
+            search: "",
+        });
+
+        const results = reactive({
+            loading: false,
+            records: [],
+            pagination: {
+                meta: null,
+                links: null,
+            },
+        });
+
+        function fetchPage(params) {
+            results.records = [];
+            results.loading = true;
+            let query = prepareQuery(params);
+            service
+                .getAll(query)
+                .then((response) => {
+                    results.records = response.data.data;
+                    results.pagination.meta = response.data.meta;
+                    results.pagination.links = response.data.links;
+                    results.loading = false;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    // alertStore.error(getResponseError(error));
+                    results.loading = false;
+                });
+        }
+
+        onMounted(() => {
+            fetchPage(mainQuery);
+        });
+
+        return { results, trans };
     },
 };
 </script>
@@ -137,6 +266,10 @@ export default {
             text-transform: uppercase;
             color: #f5f3ff;
             font-weight: 700;
+            /* width: 0%; */
+            overflow: hidden;
+            display: block;
+            /* white-space: nowrap; */
         }
 
         h2 {
@@ -170,6 +303,9 @@ export default {
 .out-pastor-section {
     background: #fff;
     padding: 100px 0px;
+    /* background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
+        url(/assets/images/i3.jpg);
+    background-attachment: fixed; */
     .details {
         padding: 20px 15px;
     }
@@ -282,9 +418,41 @@ export default {
         }
     }
 }
+.heading {
+    text-align: center;
+    padding: 20px 0px;
+    max-width: 100%;
+    width: 640px;
+    margin: auto;
 
+    h2 {
+        position: relative;
+        font-size: 48px;
+        letter-spacing: -2px;
+        font-weight: 900;
+        display: inline-block;
+        /*
+            &:after {
+                content: "";
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                display: inline-block;
+                background: #6541e6;
+                height: 8px;
+                width: 50px;
+                border-radius: 100px;
+            } */
+    }
+    p {
+        color: #667085;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 20px 0px;
+    }
+}
 .f-section {
-    background: url(/assets/images/light-texture.jpg);
+    /* background: url(/assets/images/light-texture.jpg); */
     padding: 50px 0px;
     text-align: center;
 
@@ -297,10 +465,11 @@ export default {
 
         h2 {
             position: relative;
-            font-size: 42px;
+            font-size: 48px;
+            letter-spacing: -2px;
             font-weight: 900;
             display: inline-block;
-
+            /*
             &:after {
                 content: "";
                 position: absolute;
@@ -310,29 +479,73 @@ export default {
                 background: #6541e6;
                 height: 8px;
                 width: 50px;
-            }
+                border-radius: 100px;
+            } */
         }
         p {
-            font-size: 20px;
-            /* font-weight: 500; */
+            color: #667085;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 20px 0px;
         }
     }
 }
 
 .bs {
-    background: url(/assets/images/beige-torn-edge.png);
+    /* background: url(/assets/images/beige-torn-edge.png); */
     position: absolute;
     bottom: -5px;
     width: 100%;
     height: 37px;
 }
 
+.mission {
+    padding: 10px;
+    height: 400px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    .wrapper {
+        margin: auto;
+        width: 700px;
+        max-width: 100%;
+        font-size: 18px;
+
+        .img {
+            height: 120px;
+            width: 120px;
+            border-radius: 50%;
+            background: #f5f5f5;
+            margin: 10px auto;
+        }
+        .action {
+            margin: 20px 0px;
+        }
+    }
+}
+
 .box-con {
     align-items: center;
+    gap: 30px;
     .box-left {
         flex: 1;
         border-radius: 20px;
         position: relative;
+
+        &:after {
+            content: "";
+            position: absolute;
+            border-radius: 20px;
+            height: 100%;
+            width: 100%;
+            inset: 0;
+            background: rgb(23 0 105 / 61%);
+            z-index: 224;
+            pointer-events: none;
+            transition: 0.3s;
+        }
 
         img {
             border-radius: 20px;
@@ -345,12 +558,13 @@ export default {
             font-size: 20px;
             font-weight: 900;
             left: 15px;
+            z-index: 333;
         }
     }
     .box-right {
         padding: 10px;
         flex: 1;
-        gap: 20px;
+        gap: 30px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         padding: 10px;
@@ -360,13 +574,29 @@ export default {
             overflow: hidden;
             position: relative;
 
+            &:hover {
+                img {
+                    scale: 1.2;
+                }
+
+                &:after {
+                    background: rgb(23 0 105 / 0%);
+                }
+
+                h4 {
+                    color: white;
+                }
+            }
+
             h4 {
                 position: absolute;
                 bottom: 10px;
-                color: white;
+                color: rgba(255, 255, 255, 0.9);
                 font-size: 20px;
                 font-weight: 900;
                 left: 15px;
+                z-index: 333;
+                transition: 0.3s;
             }
             img {
                 transition: 0.4s;
@@ -374,10 +604,20 @@ export default {
                 cursor: pointer;
                 object-fit: cover;
                 height: 100%;
+                z-index: 111;
+                position: relative;
+            }
 
-                &:hover {
-                    scale: 1.2;
-                }
+            &:after {
+                content: "";
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                inset: 0;
+                background: rgb(23 0 105 / 61%);
+                z-index: 224;
+                pointer-events: none;
+                transition: 0.3s;
             }
         }
     }

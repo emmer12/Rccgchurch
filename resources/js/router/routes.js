@@ -1,8 +1,12 @@
 import { default as PageHome } from "@/views/pages/shared/Home";
 import { default as PageAbout } from "@/views/pages/shared/About";
+import { default as PageContact } from "@/views/pages/shared/Contact";
+import { default as PageGallery } from "@/views/pages/shared/Gallery";
 import { default as PageHistory } from "@/views/pages/shared/History";
 import { default as PageMission } from "@/views/pages/shared/Mission";
 import { default as PageBelief } from "@/views/pages/shared/Belief";
+import { default as PageEvent } from "@/views/pages/shared/Events";
+import { default as PageEventDetails } from "@/views/pages/shared/EventDetails";
 
 import { default as PageLogin } from "@/views/pages/auth/login/Main";
 import { default as PageRegister } from "@/views/pages/auth/register/Main";
@@ -21,6 +25,13 @@ import { default as PageEvents } from "@/views/pages/private/events/Index";
 import { default as PageEventsCreate } from "@/views/pages/private/events/Create";
 import { default as PageEventsEdit } from "@/views/pages/private/events/Edit";
 
+import { default as PageSermons } from "@/views/pages/private/sermons/Index";
+import { default as PageSermonsCreate } from "@/views/pages/private/sermons/Create";
+import { default as PageSermonsEdit } from "@/views/pages/private/sermons/Edit";
+
+import { default as PageGalleryDash } from "@/views/pages/private/gallery/Index";
+import { default as PageGalleryCreate } from "@/views/pages/private/gallery/Create";
+
 import abilities from "@/stub/abilities";
 
 const routes = [
@@ -35,6 +46,18 @@ const routes = [
         path: "/about",
         meta: { requiresAuth: false },
         component: PageAbout,
+    },
+    {
+        name: "contact",
+        path: "/contact-us",
+        meta: { requiresAuth: false },
+        component: PageContact,
+    },
+    {
+        name: "gallery",
+        path: "/gallery",
+        meta: { requiresAuth: false },
+        component: PageGallery,
     },
     {
         name: "history",
@@ -53,6 +76,18 @@ const routes = [
         path: "/our-belief",
         meta: { requiresAuth: false },
         component: PageBelief,
+    },
+    {
+        name: "events",
+        path: "/events",
+        meta: { requiresAuth: false },
+        component: PageEvent,
+    },
+    {
+        name: "events-details",
+        path: "/events/:slug",
+        meta: { requiresAuth: false },
+        component: PageEventDetails,
     },
     {
         name: "panel",
@@ -132,6 +167,61 @@ const routes = [
                             requiresAbility: abilities.EDIT_USER,
                         },
                         component: PageEventsEdit,
+                    },
+                ],
+            },
+            {
+                path: "sermons",
+                children: [
+                    {
+                        name: "sermons.list",
+                        path: "list",
+                        meta: {
+                            requiresAuth: true,
+                            requiresAbility: abilities.LIST_USER,
+                        },
+                        component: PageSermons,
+                    },
+                    {
+                        name: "sermons.create",
+                        path: "create",
+                        meta: {
+                            requiresAuth: true,
+                            requiresAbility: abilities.CREATE_USER,
+                        },
+                        component: PageSermonsCreate,
+                    },
+                    {
+                        name: "sermons.edit",
+                        path: ":id/edit",
+                        meta: {
+                            requiresAuth: true,
+                            requiresAbility: abilities.EDIT_USER,
+                        },
+                        component: PageSermonsEdit,
+                    },
+                ],
+            },
+            {
+                path: "gallery",
+                children: [
+                    {
+                        name: "gallery.list",
+                        path: "list",
+                        meta: {
+                            requiresAuth: true,
+                            requiresAbility: abilities.LIST_USER,
+                        },
+                        component: PageGalleryDash,
+                    },
+                    {
+                        name: "gallery.create",
+                        path: "create",
+                        meta: {
+                            requiresAuth: true,
+                            requiresAbility: abilities.CREATE_USER,
+                        },
+                        component: PageGalleryCreate,
                     },
                 ],
             },

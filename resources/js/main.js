@@ -13,10 +13,12 @@ const app = createApp(App);
 app.component("Button", Button);
 app.component("Logo", Logo);
 app.component("Banner", Banner);
+import VueEasyLightbox from "vue-easy-lightbox";
 
 app.use(createPinia());
 
 app.use(router);
 app.use(i18n);
+app.use(VueEasyLightbox);
 
 app.mount("#app");

@@ -71,6 +71,13 @@ class EventController extends Controller
     }
 
 
+    public function show($slug)
+    {
+        $model = $this->eventService->getBySlug($slug);
+        return $this->responseDataSuccess(['model' => $model]);
+    }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -106,5 +113,10 @@ class EventController extends Controller
         }
 
         return $this->responseDeleteFail();
+    }
+
+    public function getAll(Request $request)
+    {
+        return $this->eventService->index($request->all());
     }
 }

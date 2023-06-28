@@ -4,6 +4,8 @@ use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\SermonController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
 
@@ -19,6 +21,9 @@ use App\Http\Controllers\TokenController;
 */
 
 Route::post('/sanctum/token', TokenController::class);
+Route::get('/events/get-all', [EventController::class, 'getAll']);
+Route::get('/events/get/{slug}', [EventController::class, "show"]);
+
 
 Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
 
@@ -33,6 +38,8 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::put('/users/{user}/avatar', [UserController::class, 'updateAvatar']);
     Route::resource('users', UserController::class);
     Route::resource('events', EventController::class);
+    Route::resource('sermons', SermonController::class);
+    Route::resource('gallery', GalleryController::class);
 
     /**
      * Roles

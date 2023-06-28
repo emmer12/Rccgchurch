@@ -1,9 +1,9 @@
 import ModelService from "@/services/ModelService";
 
-export default class EventService extends ModelService {
+export default class SermonService extends ModelService {
     constructor() {
         super();
-        this.url = "/events";
+        this.url = "/sermons";
     }
 
     getAll(params) {

@@ -8,11 +8,11 @@
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
                 <li class="inline-flex items-center">
                     <router-link
-                        :to="toUrl('/')"
+                        :to="'/'"
                         class="inline-flex items-center text-sm font-medium text-gray-300 hover:text-gray-200 dark:text-gray-400 dark:hover:text-white"
                     >
                         <i class="fa fa-home mr-3"></i>
-                        {{ trans("global.pages.home") }}
+                        Home
                     </router-link>
                 </li>
                 <li
