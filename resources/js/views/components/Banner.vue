@@ -72,7 +72,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 .banner {
     height: 220px;
-    background: #161722;
+    background: rgb(75, 12, 78);
+    background: linear-gradient(
+        90deg,
+        rgba(75, 12, 78, 1) 0%,
+        rgba(187, 96, 191, 1) 52%,
+        rgba(248, 243, 245, 1) 100%
+    );
     display: flex;
     /* justify-content: center; */
     align-items: center;

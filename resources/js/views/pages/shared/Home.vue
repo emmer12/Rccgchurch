@@ -35,7 +35,37 @@
             <div class="bs"></div>
         </div>
 
-        <div class="mission">
+        <!-- Meet Out Pastors -->
+
+        <div class="out-pastor-section">
+            <div class="container-x">
+                <div class="flex flex-col-reverse sm:flex-row">
+                    <div class="details flex-1">
+                        <h4 class="anim">The Nehemiah's</h4>
+                        <h2 class="anim">
+                            Welcome to RCCG Nehemiah's Palace parish
+                        </h2>
+                        <p class="anim">
+                            Pastor Gbolahan are the Lead Pastors of RCCG Church
+                            in Uk. They’ve been in pastoral ministry for over 20
+                            years.
+                        </p>
+
+                        <br />
+
+                        <Button label="LEARN MORE" class="block anim" />
+                    </div>
+                    <div class="img flex-1">
+                        <img
+                            src="/assets/images/i3.jpg"
+                            alt="Pastor Gbolahan"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="mission">
             <div class="wrapper">
                 <div class="img">
                     <img src="" />
@@ -54,7 +84,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="f-section">
             <div class="container-x">
@@ -72,57 +102,38 @@
                 <div>
                     <div class="flex sm:flex-row flex-col box-con">
                         <div class="box-left">
-                            <div>
-                                <img src="/assets/images/c1.jpg" alt="" />
-                                <h4>Message</h4>
-                            </div>
+                            <router-link
+                                v-slot="{ navigate }"
+                                :to="{ name: 'blog' }"
+                            >
+                                <div @click="navigate">
+                                    <img
+                                        src="/assets/images/message.jpg"
+                                        alt=""
+                                    />
+                                    <h4>Sermon</h4>
+                                </div>
+                            </router-link>
                         </div>
                         <div class="box-right">
-                            <div>
+                            <router-link class="div" :to="{ name: 'events' }">
                                 <img src="/assets/images/events2.jpg" alt="" />
                                 <h4>Event</h4>
-                            </div>
-                            <div>
-                                <img src="/assets/images/c1.jpg" alt="" />
-                                <h4>Sermon</h4>
-                            </div>
-                            <div>
+                            </router-link>
+                            <router-link class="div" :to="{ name: 'blog' }">
+                                <img src="/assets/images/pastor.jpg" alt="" />
+                                <h4>Pastor's conner</h4>
+                            </router-link>
+                            <router-link class="div" :to="{ name: 'register' }">
                                 <img src="/assets/images/i2.jpg" alt="" />
                                 <h4>Become a Member</h4>
-                            </div>
-                            <div>
+                            </router-link>
+
+                            <div class="div">
                                 <img src="/assets/images/app.jpg" alt="" />
-                                <h4>App</h4>
+                                <h4>Download our App</h4>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Meet Out Pastors -->
-
-        <div class="out-pastor-section">
-            <div class="container-x">
-                <div class="flex flex-col-reverse sm:flex-row">
-                    <div class="details flex-1">
-                        <h4>The Nehemiah's</h4>
-                        <h2>Welcome to RCCG Nehemiah's Palace parish</h2>
-                        <p>
-                            Pastor Gbolahan are the Lead Pastors of RCCG Church
-                            in Uk. They’ve been in pastoral ministry for over 20
-                            years.
-                        </p>
-
-                        <br />
-
-                        <Button label="LEARN MORE" class="block" />
-                    </div>
-                    <div class="img flex-1">
-                        <img
-                            src="/assets/images/i3.jpg"
-                            alt="Pastor Gbolahan"
-                        />
                     </div>
                 </div>
             </div>
@@ -202,6 +213,14 @@ export default {
             scrollTrigger: ".box-right div",
             scale: 0.7,
             duration: 1,
+            stagger: "0.2",
+            ease: "Back.easeOut",
+        });
+
+        gsap.from(".anim", {
+            scrollTrigger: ".anim",
+            y: 30,
+            duration: 2,
             stagger: "0.2",
             ease: "Back.easeOut",
         });
@@ -292,7 +311,7 @@ export default {
                 position: absolute;
                 width: 31px;
                 height: 2px;
-                background: #6541e6;
+                background: #d021d8;
                 left: -39px;
                 top: 12px;
             }
@@ -316,13 +335,13 @@ export default {
         width: 100%;
         position: relative;
         position: relative;
-        border: 2px solid #6541e6;
+        border: 2px solid #d021d8;
 
         &::after {
             content: "Welcome to God's Family";
             height: 50px;
             width: 300px;
-            background: #6541e6;
+            background: #d021d8;
             position: absolute;
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
@@ -331,7 +350,7 @@ export default {
             text-align: center;
             line-height: 55px;
             font-weight: 700;
-            border: 2px solid #6541e6;
+            border: 2px solid #d021d8;
             bottom: -40px;
         }
 
@@ -348,7 +367,7 @@ export default {
     h4 {
         font-size: 20px;
         text-transform: uppercase;
-        color: #6541e6;
+        color: #d021d8;
         font-weight: 500;
         margin: 10px 0px;
     }
@@ -438,7 +457,7 @@ export default {
                 top: 0px;
                 left: 0px;
                 display: inline-block;
-                background: #6541e6;
+                background: #d021d8;
                 height: 8px;
                 width: 50px;
                 border-radius: 100px;
@@ -450,6 +469,12 @@ export default {
         font-weight: 500;
         padding: 20px 0px;
     }
+}
+
+.event-section {
+    background: #fff;
+    /* background: #f8f3f5; */
+    padding: 50px 0px;
 }
 .f-section {
     /* background: url(/assets/images/light-texture.jpg); */
@@ -476,7 +501,7 @@ export default {
                 top: 0px;
                 left: 0px;
                 display: inline-block;
-                background: #6541e6;
+                background: #d021d8;
                 height: 8px;
                 width: 50px;
                 border-radius: 100px;
@@ -533,6 +558,28 @@ export default {
         flex: 1;
         border-radius: 20px;
         position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        img {
+            transition: 0.3s;
+        }
+        div h4 {
+            transition: 0.3s;
+        }
+
+        &:hover {
+            img {
+                scale: 1.2;
+            }
+
+            &:after {
+                background: rgb(23 0 105 / 0%);
+            }
+
+            div h4 {
+                margin-left: 20px;
+            }
+        }
 
         &:after {
             content: "";
@@ -541,7 +588,7 @@ export default {
             height: 100%;
             width: 100%;
             inset: 0;
-            background: rgb(23 0 105 / 61%);
+            background: #210e2c4f;
             z-index: 224;
             pointer-events: none;
             transition: 0.3s;
@@ -555,8 +602,8 @@ export default {
             position: absolute;
             bottom: 10px;
             color: white;
-            font-size: 20px;
-            font-weight: 900;
+            font-size: 18px;
+            font-weight: 700;
             left: 15px;
             z-index: 333;
         }
@@ -569,7 +616,7 @@ export default {
         grid-template-columns: repeat(2, 1fr);
         padding: 10px;
 
-        div {
+        .div {
             border-radius: 20px;
             overflow: hidden;
             position: relative;
@@ -592,8 +639,8 @@ export default {
                 position: absolute;
                 bottom: 10px;
                 color: rgba(255, 255, 255, 0.9);
-                font-size: 20px;
-                font-weight: 900;
+                font-size: 18px;
+                font-weight: 700;
                 left: 15px;
                 z-index: 333;
                 transition: 0.3s;

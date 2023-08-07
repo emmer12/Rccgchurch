@@ -5,6 +5,15 @@
 @layer base {
     body {
         @apply bg-gray-50;
+        font-family: "Open Sans", sans-serif;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: "Syne", sans-serif;
     }
     .base-link {
         @apply text-blue-400;

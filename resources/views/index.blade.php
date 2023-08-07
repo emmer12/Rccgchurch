@@ -6,6 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>{{ env('APP_NAME') }}</title>
+    <meta property="og:title" content="RCCG || Nehemiah's Palance Parish" />
+    <meta property="og:description" content="Welcome to The Redeemed Christian Church of Go, Nehemiah's Palance Parish" />
+    <meta property="og:url" content="https://nehemiahs.co.uk" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" sizes="32x32">
 
     @vite(['resources/scss/main.scss', 'resources/js/main.js'])
 

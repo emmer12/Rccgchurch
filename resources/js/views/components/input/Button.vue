@@ -65,7 +65,7 @@ export default defineComponent({
 
         const classes = computed(() => {
             let value =
-                "border rounded-full border-transparent text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-center transition ";
+                "border rounded-xl border-transparent text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-center transition ";
             switch (props.theme) {
                 case "success":
                     value +=

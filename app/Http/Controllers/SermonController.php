@@ -39,7 +39,7 @@ class SermonController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('create', Gallery::class);
+        $this->authorize('create', Sermon::class);
 
         $record = $this->sermonService->create($request->all());
         if (!is_null($record)) {

@@ -49,7 +49,7 @@
                             <router-link to="/contact-us" v-slot="{ navigate }">
                                 <li @click="navigate">Contact</li>
                             </router-link>
-                            <router-link to="#" v-slot="{ navigate }">
+                            <router-link to="/sermons" v-slot="{ navigate }">
                                 <li @click="navigate">Sermons</li>
                             </router-link>
                             <router-link to="/events" v-slot="{ navigate }">
@@ -59,9 +59,12 @@
                                 <li @click="navigate">Gallery</li>
                             </router-link>
                         </ul>
-                        <ul class="right">
-                            <Button to="login" label="Sign up" />
-                        </ul>
+                        <div class="right flex gap-2">
+                            <Button to="register" label="Sign up" />
+                            <a href="">
+                                <Button theme="outline" label="Download app" />
+                            </a>
+                        </div>
                     </div>
 
                     <div class="block sm:hidden">
@@ -107,7 +110,10 @@
                                         </div>
                                     </ul>
                                 </li>
-                                <router-link to="#" v-slot="{ navigate }">
+                                <router-link
+                                    to="/sermons"
+                                    v-slot="{ navigate }"
+                                >
                                     <li @click="navigate">Sermons</li>
                                 </router-link>
                                 <router-link to="/events" v-slot="{ navigate }">
@@ -165,7 +171,7 @@ export default {
 
 <style lang="scss" scoped>
 .navigation {
-    background: #fff;
+    background: #f8f3f5;
     /* position: fixed;
     top: 0;
     left: 0;
@@ -194,7 +200,7 @@ export default {
                     transition: 0.3s;
 
                     &:hover {
-                        color: #000;
+                        color: #d021d8;
                     }
                 }
             }

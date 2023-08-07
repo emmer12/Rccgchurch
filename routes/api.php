@@ -25,6 +25,12 @@ Route::get('/events/get-all', [EventController::class, 'getAll']);
 Route::get('/events/get/{slug}', [EventController::class, "show"]);
 
 
+Route::get('/gallery/get-all', [GalleryController::class, 'getAll']);
+Route::get('/sermons/get-all', [SermonController::class, 'getAll']);
+Route::get('/sermons/get/{slug}', [SermonController::class, 'show']);
+
+
+
 Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
 
     /**

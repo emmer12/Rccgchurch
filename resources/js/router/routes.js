@@ -7,6 +7,7 @@ import { default as PageMission } from "@/views/pages/shared/Mission";
 import { default as PageBelief } from "@/views/pages/shared/Belief";
 import { default as PageEvent } from "@/views/pages/shared/Events";
 import { default as PageEventDetails } from "@/views/pages/shared/EventDetails";
+import { default as PageSermon } from "@/views/pages/shared/Sermon";
 
 import { default as PageLogin } from "@/views/pages/auth/login/Main";
 import { default as PageRegister } from "@/views/pages/auth/register/Main";
@@ -88,6 +89,19 @@ const routes = [
         path: "/events/:slug",
         meta: { requiresAuth: false },
         component: PageEventDetails,
+    },
+    {
+        name: "sermons",
+        path: "/sermons",
+        meta: { requiresAuth: false },
+        component: PageSermon,
+    },
+
+    {
+        name: "blog",
+        path: "/blog",
+        meta: { requiresAuth: false },
+        component: PageSermon,
     },
     {
         name: "panel",
