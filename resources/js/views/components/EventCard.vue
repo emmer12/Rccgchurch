@@ -15,7 +15,7 @@
                         {{ moment(event.datetime).format("hh:mm a") }}</b
                     >
                 </div>
-                <div class="title">
+                <div class="title1">
                     <h4 class="text-xl font-semibold">{{ event.title }}</h4>
                     <div class="flex gap-2">
                         <svg

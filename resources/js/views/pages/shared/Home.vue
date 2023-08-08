@@ -1,38 +1,125 @@
 <template>
     <Guest>
-        <div class="banner">
-            <div class="container-x">
-                <div class="flex flex-wrap">
-                    <div class="content">
-                        <h4 class="mb-4 title" ref="title">
-                            Welcome to our church
-                        </h4>
-                        <h2 class="mb-8 title-2">
-                            Become a part of our community
-                        </h2>
+        <div class="banner1">
+            <swiper
+                :slides-per-view="1"
+                :space-between="0"
+                @swiper="onSwiper"
+                :modules="modules"
+                :autoplay="{ delay: 5000, disableOnInteraction: false }"
+                :grabCursor="true"
+                :effect="'creative'"
+                :navigation="true"
+                :creativeEffect="{
+                    prev: {
+                        shadow: true,
+                        translate: [0, 0, -600],
+                    },
+                    next: {
+                        translate: ['100%', 0, 0],
+                    },
+                }"
+                @slideChange="onSlideChange"
+            >
+                <swiper-slide>
+                    <div class="banner">
+                        <div class="container-x">
+                            <div class="flex flex-wrap">
+                                <div class="content">
+                                    <h4 class="mb-4 title" ref="title">
+                                        Welcome to our church
+                                    </h4>
+                                    <h2 class="mb-8 title-2">
+                                        Become a part of our community
+                                    </h2>
 
-                        <!-- <Button class="mb-16" label="Learn More" /> -->
-                        <div class="store-i flex item-center mb-16">
-                            <img
-                                src="/assets/images/Apple Store.png"
-                                alt="Apple Store"
-                                class="mr-4"
-                            />
-                            <img
-                                src="/assets/images/Playstore.png"
-                                alt="Playstore"
-                            />
+                                    <!-- <Button class="mb-16" label="Learn More" /> -->
+                                    <div class="store-i flex item-center mb-16">
+                                        <img
+                                            src="/assets/images/Apple Store.png"
+                                            alt="Apple Store"
+                                            class="mr-4"
+                                        />
+                                        <img
+                                            src="/assets/images/Playstore.png"
+                                            alt="Playstore"
+                                        />
+                                    </div>
+
+                                    <p class="note">
+                                        Lorem ipsum dolor sit amet, consectetur
+                                        adipisicing elit. Ad voluptate
+                                        cupiditate inventore.
+                                    </p>
+                                </div>
+                                <div class="artworks"></div>
+                            </div>
                         </div>
-
-                        <p class="note">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Ad voluptate cupiditate inventore.
-                        </p>
+                        <div class="bs"></div>
                     </div>
-                    <div class="artworks"></div>
-                </div>
-            </div>
-            <div class="bs"></div>
+                </swiper-slide>
+                <swiper-slide>
+                    <div class="banner2">
+                        <div class="container-x">
+                            <div class="flex flex-wrap">
+                                <div class="content">
+                                    <h4 class="mb-4 title" ref="title">
+                                        Meet Our Happy Member
+                                    </h4>
+                                    <h2 class="mb-8 title-2">
+                                        Become a part of our community
+                                    </h2>
+
+                                    <div class="store-i flex item-center mb-16">
+                                        <Button
+                                            class="mb-16"
+                                            label="Beconme a member"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bs"></div>
+                    </div>
+                </swiper-slide>
+                <swiper-slide>
+                    <div class="banner3">
+                        <div class="container-x">
+                            <div class="flex flex-wrap">
+                                <div class="content">
+                                    <h4 class="mb-4 title" ref="title">
+                                        Welcome to our church
+                                    </h4>
+                                    <h2 class="mb-8 title-2">
+                                        Become a part of our community
+                                    </h2>
+
+                                    <!-- <Button class="mb-16" label="Learn More" /> -->
+                                    <div class="store-i flex item-center mb-16">
+                                        <img
+                                            src="/assets/images/Apple Store.png"
+                                            alt="Apple Store"
+                                            class="mr-4"
+                                        />
+                                        <img
+                                            src="/assets/images/Playstore.png"
+                                            alt="Playstore"
+                                        />
+                                    </div>
+
+                                    <p class="note">
+                                        Lorem ipsum dolor sit amet, consectetur
+                                        adipisicing elit. Ad voluptate
+                                        cupiditate inventore.
+                                    </p>
+                                </div>
+                                <div class="artworks"></div>
+                            </div>
+                        </div>
+                        <div class="bs"></div>
+                    </div>
+                </swiper-slide>
+            </swiper>
         </div>
 
         <!-- Meet Out Pastors -->
@@ -184,9 +271,17 @@ import { reactive, onMounted } from "vue";
 import { prepareQuery } from "@/helpers/api";
 import Spinner from "@/views/components/icons/Spinner";
 import { trans } from "@/helpers/i18n";
-
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { EffectCreative, Autoplay, Navigation } from "swiper/modules";
 import ScrollTrigger from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/autoplay";
+import "swiper/css/effect-creative";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 export default {
     components: {
@@ -194,21 +289,31 @@ export default {
         AppDownload,
         EventCard,
         Spinner,
+        Swiper,
+        SwiperSlide,
+    },
+    methods: {
+        runAnim() {
+            gsap.timeline()
+                .from(".title", {
+                    x: -50,
+                    opacity: 0,
+                })
+                .from(".title-2", {
+                    x: -50,
+                    opacity: 0,
+                })
+                .from(".store-i,.note", {
+                    opacity: 0,
+                });
+        },
+        onSwiper(swiper) {},
+        onSlideChange() {
+            this.runAnim();
+        },
     },
     mounted() {
-        gsap.timeline()
-            .from(".title", {
-                x: -50,
-                opacity: 0,
-            })
-            .from(".title-2", {
-                x: -50,
-                opacity: 0,
-            })
-            .from(".store-i,.note", {
-                opacity: 0,
-            });
-
+        this.runAnim();
         gsap.from(".box-right div", {
             scrollTrigger: ".box-right div",
             scale: 0.7,
@@ -265,13 +370,19 @@ export default {
             fetchPage(mainQuery);
         });
 
-        return { results, trans };
+        return {
+            results,
+            trans,
+            modules: [EffectCreative, Autoplay, Navigation],
+        };
     },
 };
 </script>
 
 <style lang="scss" scoped>
-.banner {
+.banner,
+.banner2,
+.banner3 {
     background-color: #121212;
     background-image: url(/assets/images/banner1.png);
     height: 663px;
@@ -317,6 +428,14 @@ export default {
             }
         }
     }
+}
+
+.banner2 {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)),
+        url(/assets/images/i1.jpg);
+}
+.banner3 {
+    background-image: url(/assets/images/i1.jpg);
 }
 
 .out-pastor-section {
@@ -386,7 +505,7 @@ export default {
 }
 
 @media (max-width: 640px) {
-    .banner {
+    .banner,.banner2,.banner3 {
         /* background-image: url(/assets/images/banner1.png); */
         background-position-x: center;
         height: auto;
@@ -668,5 +787,21 @@ export default {
             }
         }
     }
+}
+</style>
+
+<style>
+.swiper-button-next,
+.swiper-button-prev {
+    background-color: #ffffffa1 !important;
+    border-radius: 100%;
+    color: #d021d8 !important;
+    height: 50px;
+    width: 50px;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    font-size: 24px;
 }
 </style>
