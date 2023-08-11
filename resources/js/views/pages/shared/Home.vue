@@ -207,7 +207,7 @@
                                 <img src="/assets/images/events2.jpg" alt="" />
                                 <h4>Event</h4>
                             </router-link>
-                            <router-link class="div" :to="{ name: 'blog' }">
+                            <router-link class="div" :to="{ name: 'pc' }">
                                 <img src="/assets/images/pastor.jpg" alt="" />
                                 <h4>Pastor's conner</h4>
                             </router-link>
@@ -235,17 +235,36 @@
                 <div class="my-[30px]">
                     <div
                         class="body"
-                        v-if="
-                            results.records &&
-                            results.records.length &&
-                            !results.loading
-                        "
+                        v-if="results.records.events.length && !results.loading"
                     >
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <EventCard
-                                v-for="event in results.records"
+                                v-for="event in results.records.events"
                                 :event="event"
                                 :key="event.id"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="confession-section">
+            <div class="container-x">
+                <div class="heading left">
+                    <h2>Our Monthly Confession</h2>
+                </div>
+
+                <div class="my-[30px]">
+                    <div
+                        class="body"
+                        v-if="results.records.blogs.length && !results.loading"
+                    >
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <ConfessionCard
+                                v-for="blog in results.records.blogs"
+                                :event="blog"
+                                :key="blog.id"
                             />
                         </div>
                     </div>
@@ -266,6 +285,7 @@ import Guest from "@/views/layouts/Guest";
 import AppDownload from "@/views/components/AppDownload";
 import gsap from "gsap";
 import EventCard from "@/views/components/EventCard.vue";
+import ConfessionCard from "@/views/components/ConfessionCard.vue";
 import EventService from "@/services/EventService";
 import { reactive, onMounted } from "vue";
 import { prepareQuery } from "@/helpers/api";
@@ -291,6 +311,7 @@ export default {
         Spinner,
         Swiper,
         SwiperSlide,
+        ConfessionCard,
     },
     methods: {
         runAnim() {
@@ -340,7 +361,10 @@ export default {
 
         const results = reactive({
             loading: false,
-            records: [],
+            records: {
+                blogs: [],
+                events: [],
+            },
             pagination: {
                 meta: null,
                 links: null,
@@ -352,11 +376,12 @@ export default {
             results.loading = true;
             let query = prepareQuery(params);
             service
-                .getAll(query)
+                .get("/home-data")
                 .then((response) => {
-                    results.records = response.data.data;
-                    results.pagination.meta = response.data.meta;
-                    results.pagination.links = response.data.links;
+                    console.log(response.data);
+                    results.records.blogs = response.data.blogs;
+                    results.records.events = response.data.events;
+
                     results.loading = false;
                 })
                 .catch((error) => {
@@ -431,11 +456,12 @@ export default {
 }
 
 .banner2 {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)),
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)),
         url(/assets/images/i1.jpg);
 }
 .banner3 {
-    background-image: url(/assets/images/i1.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3)),
+        url(/assets/images/i1.jpg);
 }
 
 .out-pastor-section {
@@ -505,8 +531,9 @@ export default {
 }
 
 @media (max-width: 640px) {
-    .banner,.banner2,.banner3 {
-        /* background-image: url(/assets/images/banner1.png); */
+    .banner,
+    .banner2,
+    .banner3 {
         background-position-x: center;
         height: auto;
         .content {
@@ -555,6 +582,19 @@ export default {
             font-size: 20px;
         }
     }
+
+    .heading {
+        h2 {
+            font-size: 24px !important;
+        }
+        p {
+            font-size: 14px !important;
+        }
+    }
+
+    .box-con .box-right {
+        gap: 10px !important;
+    }
 }
 .heading {
     text-align: center;
@@ -563,24 +603,18 @@ export default {
     width: 640px;
     margin: auto;
 
+    &.left {
+        text-align: start;
+        margin: 0;
+        width: 100%;
+    }
+
     h2 {
         position: relative;
-        font-size: 48px;
+        font-size: 34px;
         letter-spacing: -2px;
         font-weight: 900;
         display: inline-block;
-        /*
-            &:after {
-                content: "";
-                position: absolute;
-                top: 0px;
-                left: 0px;
-                display: inline-block;
-                background: #d021d8;
-                height: 8px;
-                width: 50px;
-                border-radius: 100px;
-            } */
     }
     p {
         color: #667085;
@@ -590,49 +624,17 @@ export default {
     }
 }
 
+.confession-section {
+    background: #f8f3f5;
+    padding: 50px 0px;
+}
 .event-section {
     background: #fff;
-    /* background: #f8f3f5; */
     padding: 50px 0px;
 }
 .f-section {
-    /* background: url(/assets/images/light-texture.jpg); */
     padding: 50px 0px;
     text-align: center;
-
-    .heading {
-        text-align: center;
-        padding: 20px 0px;
-        max-width: 100%;
-        width: 640px;
-        margin: auto;
-
-        h2 {
-            position: relative;
-            font-size: 48px;
-            letter-spacing: -2px;
-            font-weight: 900;
-            display: inline-block;
-            /*
-            &:after {
-                content: "";
-                position: absolute;
-                top: 0px;
-                left: 0px;
-                display: inline-block;
-                background: #d021d8;
-                height: 8px;
-                width: 50px;
-                border-radius: 100px;
-            } */
-        }
-        p {
-            color: #667085;
-            font-size: 16px;
-            font-weight: 500;
-            padding: 20px 0px;
-        }
-    }
 }
 
 .bs {

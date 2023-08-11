@@ -9,9 +9,13 @@
         <div class="details">
             <div class="flex gap-4">
                 <div class="date text-center">
-                    <span>{{ moment(event.datetime).format("MMM") }}</span>
-                    <h3>{{ moment(event.datetime).format("DD") }}</h3>
-                    <b class="text-gray-600">
+                    <span class="inline-block">{{
+                        moment(event.datetime).format("MMM")
+                    }}</span>
+                    <span class="h3 block">{{
+                        moment(event.datetime).format("DD")
+                    }}</span>
+                    <b class="text-gray-600 inline-block">
                         {{ moment(event.datetime).format("hh:mm a") }}</b
                     >
                 </div>
@@ -109,7 +113,7 @@ export default defineComponent({
                 font-weight: 700;
             }
 
-            h3 {
+            .h3 {
                 font-weight: 700;
                 font-size: 24px;
             }

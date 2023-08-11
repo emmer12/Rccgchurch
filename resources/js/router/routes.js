@@ -8,6 +8,8 @@ import { default as PageBelief } from "@/views/pages/shared/Belief";
 import { default as PageEvent } from "@/views/pages/shared/Events";
 import { default as PageEventDetails } from "@/views/pages/shared/EventDetails";
 import { default as PageSermon } from "@/views/pages/shared/Sermon";
+import { default as Blog } from "@/views/pages/shared/Blog";
+import { default as PageBlogDetails } from "@/views/pages/shared/BlogDetails";
 
 import { default as PageLogin } from "@/views/pages/auth/login/Main";
 import { default as PageRegister } from "@/views/pages/auth/register/Main";
@@ -29,6 +31,10 @@ import { default as PageEventsEdit } from "@/views/pages/private/events/Edit";
 import { default as PageSermons } from "@/views/pages/private/sermons/Index";
 import { default as PageSermonsCreate } from "@/views/pages/private/sermons/Create";
 import { default as PageSermonsEdit } from "@/views/pages/private/sermons/Edit";
+
+import { default as PageBlog } from "@/views/pages/private/blog/Index";
+import { default as PageBlogCreate } from "@/views/pages/private/blog/Create";
+import { default as PageBlogEdit } from "@/views/pages/private/blog/Edit";
 
 import { default as PageGalleryDash } from "@/views/pages/private/gallery/Index";
 import { default as PageGalleryCreate } from "@/views/pages/private/gallery/Create";
@@ -95,6 +101,18 @@ const routes = [
         path: "/sermons",
         meta: { requiresAuth: false },
         component: PageSermon,
+    },
+    {
+        name: "pc",
+        path: "/pastors-conner",
+        meta: { requiresAuth: false },
+        component: Blog,
+    },
+    {
+        name: "pc-details",
+        path: "/pastors-conner/:slug",
+        meta: { requiresAuth: false },
+        component: PageBlogDetails,
     },
 
     {
@@ -213,6 +231,38 @@ const routes = [
                             requiresAbility: abilities.EDIT_USER,
                         },
                         component: PageSermonsEdit,
+                    },
+                ],
+            },
+            {
+                path: "blog",
+                children: [
+                    {
+                        name: "blog.list",
+                        path: "list",
+                        meta: {
+                            requiresAuth: true,
+                            requiresAbility: abilities.LIST_USER,
+                        },
+                        component: PageBlog,
+                    },
+                    {
+                        name: "blog.create",
+                        path: "create",
+                        meta: {
+                            requiresAuth: true,
+                            requiresAbility: abilities.CREATE_USER,
+                        },
+                        component: PageBlogCreate,
+                    },
+                    {
+                        name: "blog.edit",
+                        path: ":id/edit",
+                        meta: {
+                            requiresAuth: true,
+                            requiresAbility: abilities.EDIT_USER,
+                        },
+                        component: PageBlogEdit,
                     },
                 ],
             },

@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SermonController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\SpaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
 
@@ -28,8 +30,11 @@ Route::get('/events/get/{slug}', [EventController::class, "show"]);
 Route::get('/gallery/get-all', [GalleryController::class, 'getAll']);
 Route::get('/sermons/get-all', [SermonController::class, 'getAll']);
 Route::get('/sermons/get/{slug}', [SermonController::class, 'show']);
+Route::get('/blog/get-all', [BlogController::class, 'getAll']);
+Route::get('/blog/get/{slug}', [BlogController::class, 'show']);
 
 
+Route::get('/home-data', [SpaController::class, 'getData']);
 
 Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
 
@@ -46,6 +51,7 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::resource('events', EventController::class);
     Route::resource('sermons', SermonController::class);
     Route::resource('gallery', GalleryController::class);
+    Route::resource('blog', BlogController::class);
 
     /**
      * Roles

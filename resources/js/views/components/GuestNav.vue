@@ -62,13 +62,18 @@
                         <div class="right flex gap-2">
                             <Button to="register" label="Sign up" />
                             <a href="">
-                                <Button theme="outline" label="Download app" />
+                                <Button theme="outline" label="Give" />
                             </a>
                         </div>
                     </div>
 
                     <div class="block sm:hidden">
-                        <input class="hidden" type="checkbox" id="active" />
+                        <input
+                            class="hidden"
+                            type="checkbox"
+                            v-model="state.sidebar"
+                            id="active"
+                        />
                         <label for="active" class="menu-btn"
                             ><span></span
                         ></label>
@@ -142,24 +147,34 @@
 
 <script>
 import Button from "@/views/components/input/Button";
-import { reactive } from "vue";
+import { reactive, watch } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
     components: {
         Button,
     },
     setup() {
+        const route = useRoute();
         const state = reactive({
             isAccountDropdownOpen: false,
             isMobileMenuOpen: false,
             currentExpandedMenuItem: null,
             app: window.AppConfig,
             show: false,
+            sidebar: false,
         });
 
         const toggle = () => {
             state.show = !state.show;
         };
+
+        watch(
+            () => route.name,
+            () => {
+                state.sidebar = false;
+            }
+        );
 
         return {
             state,
@@ -190,6 +205,12 @@ export default {
             justify-content: space-between;
             flex: 1;
             ul {
+                .active {
+                    li {
+                        color: #d021d8;
+                    }
+                }
+
                 li {
                     color: rgba($color: #161722, $alpha: 0.9);
                     padding: 15px;
@@ -242,7 +263,7 @@ export default {
                     position: absolute;
                     height: 100%;
                     width: 2px;
-                    background: #fff;
+                    background: #d021d8;
                     left: -50px;
                 }
             }

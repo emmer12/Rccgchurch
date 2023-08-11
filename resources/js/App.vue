@@ -1,18 +1,24 @@
 <template>
     <div
         class="bg-gray-100 flex"
-        v-if="authStore.user && authStore.user.hasOwnProperty('id')"
+        v-if="
+            authStore.user &&
+            authStore.user.hasOwnProperty('id') &&
+            route.path.includes('panel')
+        "
     >
         <aside
-            class="relative bg-theme-600 h-screen w-64 hidden sm:block shadow-xl"
+            class="relative bg-[#120012] h-screen w-64 hidden sm:block shadow-xl"
         >
             <div class="p-6 border-b border-theme-600">
                 <router-link
-                    class="text-white text-3xl font-semibold uppercase hover:text-gray-300"
+                    class="text-white text-3xl text-center font-semibold uppercase hover:text-gray-300"
                     to="/panel/dashboard"
                 >
                     <template v-if="state.app.logo">
-                        <img :src="state.app.logo" :alt="state.app.name" />
+                        <router-link class="inline-block" to="/">
+                            <Logo
+                        /></router-link>
                     </template>
                     <template v-else>
                         {{ state.app.name }}
@@ -141,12 +147,6 @@
                     class="flex flex-col pt-4 text-base text-white"
                 >
                     <Menu :state="state" :type="'mobile'" />
-                    <button
-                        class="w-full bg-theme-800 text-white font-semibold py-2 mt-3 rounded-lg shadow-lg hover:shadow-xl hover:text-theme-800 hover:bg-gray-300 flex items-center justify-center"
-                    >
-                        <Icon name="paperclip" class="mr-3" />
-                        {{ trans("global.buttons.documentation") }}
-                    </button>
                 </nav>
             </header>
 
@@ -184,6 +184,7 @@ import { useGlobalStateStore } from "@/stores";
 import { useRoute } from "vue-router";
 import { useAlertStore } from "@/stores";
 import { getAbilitiesForRoute } from "@/helpers/routing";
+import { watch } from "vue";
 
 export default {
     name: "app",
@@ -253,7 +254,7 @@ export default {
                 },
                 {
                     name: trans("Events"),
-                    icon: "",
+                    icon: "calendar",
                     showDesktop: true,
                     showMobile: true,
                     requiresAbility: getAbilitiesForRoute("*"),
@@ -261,15 +262,23 @@ export default {
                 },
                 {
                     name: trans("Sermon"),
-                    icon: "",
+                    icon: "book",
                     showDesktop: true,
                     showMobile: true,
                     requiresAbility: getAbilitiesForRoute("*"),
                     to: "/panel/sermons/list",
                 },
                 {
+                    name: trans("Blog"),
+                    icon: "rss",
+                    showDesktop: true,
+                    showMobile: true,
+                    requiresAbility: getAbilitiesForRoute("*"),
+                    to: "/panel/blog/list",
+                },
+                {
                     name: trans("Gallery"),
-                    icon: "",
+                    icon: "image",
                     showDesktop: true,
                     showMobile: true,
                     requiresAbility: getAbilitiesForRoute("*"),
@@ -285,18 +294,6 @@ export default {
                     to: "",
                 },
             ],
-            headerLeftLink: {
-                name: trans("global.buttons.new_record"),
-                icon: "plus",
-                to: "",
-                href: "#",
-            },
-            footerLeftLink: {
-                name: trans("global.buttons.documentation"),
-                icon: "paperclip",
-                to: "",
-                href: "#",
-            },
             isAccountDropdownOpen: false,
             isMobileMenuOpen: false,
             currentExpandedMenuItem: null,
@@ -316,6 +313,13 @@ export default {
             }
         });
 
+        watch(
+            () => route.name,
+            () => {
+                window.scrollTo(0, 0);
+            }
+        );
+
         return {
             state,
             authStore,
@@ -323,6 +327,7 @@ export default {
             trans,
             onLogout,
             isLoading,
+            route,
         };
     },
 };
