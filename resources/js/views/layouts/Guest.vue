@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="mt-[70px]">
         <Alert class="mb-4" />
         <!-- <slot name="filters"></slot> -->
         <div class="grid grid-cols-1">

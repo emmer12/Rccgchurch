@@ -1,6 +1,6 @@
 <template>
     <nav>
-        <div class="h-20 navigation">
+        <div class="h-20 navigation" id="nav">
             <div class="container-x">
                 <div class="wrapper">
                     <div class="logo">
@@ -154,6 +154,49 @@ export default {
     components: {
         Button,
     },
+    data() {
+        return {
+            direction: 0,
+            prevDirection: 0,
+            prevScroll: window.scrollY || document.documentElement.scrollTop,
+        };
+    },
+    created() {
+        window.addEventListener("scroll", this.checkScroll);
+    },
+    methods: {
+        checkScroll: function () {
+            let curScroll =
+                window.scrollY || document.documentElement.scrollTop;
+
+            if (curScroll > this.prevScroll) {
+                //scrolled up
+                this.direction = 1;
+            } else if (curScroll < this.prevScroll) {
+                //scrolled down
+
+                this.direction = 2;
+            }
+
+            if (this.direction !== this.prevDirection) {
+                this.toggleHeader(this.direction, curScroll);
+            }
+
+            this.prevScroll = curScroll;
+        },
+        toggleHeader: function (direction, curScroll) {
+            var header = document.getElementById("nav");
+            if (direction === 1 && curScroll > 70) {
+                //replace 52 with the height of your header in px
+
+                header.classList.add("hide");
+                this.prevDirection = direction;
+            } else if (direction === 2) {
+                header.classList.remove("hide");
+                this.prevDirection = direction;
+            }
+        },
+    },
     setup() {
         const route = useRoute();
         const state = reactive({
@@ -188,12 +231,14 @@ export default {
 .navigation {
     background: #f8f3f5;
     /* position: fixed;
-    top: 0;
     left: 0;
-    width: 100%;
     background: #8c408869; */
+    transition: 0.3s;
     z-index: 9999;
-    position: relative;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+
     .wrapper {
         display: flex;
         height: 80px;
@@ -271,6 +316,11 @@ export default {
                 display: inline-flex;
             }
         }
+    }
+
+    &.hide {
+        /* position: relative; */
+        top: -100px;
     }
 }
 

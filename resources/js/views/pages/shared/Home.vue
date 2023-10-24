@@ -1,125 +1,49 @@
 <template>
     <Guest>
-        <div class="banner1">
-            <swiper
-                :slides-per-view="1"
-                :space-between="0"
-                @swiper="onSwiper"
-                :modules="modules"
-                :autoplay="{ delay: 5000, disableOnInteraction: false }"
-                :grabCursor="true"
-                :effect="'creative'"
-                :navigation="true"
-                :creativeEffect="{
-                    prev: {
-                        shadow: true,
-                        translate: [0, 0, -600],
-                    },
-                    next: {
-                        translate: ['100%', 0, 0],
-                    },
-                }"
-                @slideChange="onSlideChange"
+        <div class="v-banner top-0 h-screen">
+            <video
+                muted
+                autoplay
+                loop
+                class="w-full h-full"
+                poster="/assets/images/poster.jpg"
             >
-                <swiper-slide>
-                    <div class="banner">
-                        <div class="container-x">
-                            <div class="flex flex-wrap">
-                                <div class="content">
-                                    <h4 class="mb-4 title" ref="title">
-                                        Welcome to our church
-                                    </h4>
-                                    <h2 class="mb-8 title-2">
-                                        Become a part of our community
-                                    </h2>
+                <source
+                    src="/assets/videos/v1.mp4'"
+                    type="video/mp4"
+                    media="all and (max-width: 640px)"
+                />
+                <source src="/assets/videos/v1.mp4" type="video/mp4" />
+            </video>
+            <div class="container-x">
+                <div class="details w-full sm:w-1/2">
+                    <h1 class="welcome-text-1">
+                        Welcome to our
+                        <span class="text-[#d021d8] font-bold">church</span>
+                    </h1>
+                    <h1 class="welcome-text-2">
+                        Become a part of our community
+                    </h1>
+                    <p class="text-gray-300">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Quam ratione ut voluptas magnam atque eligendi
+                        dignissimos quidem inventore.
+                    </p>
 
-                                    <!-- <Button class="mb-16" label="Learn More" /> -->
-                                    <div class="store-i flex item-center mb-16">
-                                        <img
-                                            src="/assets/images/Apple Store.png"
-                                            alt="Apple Store"
-                                            class="mr-4"
-                                        />
-                                        <img
-                                            src="/assets/images/Playstore.png"
-                                            alt="Playstore"
-                                        />
-                                    </div>
-
-                                    <p class="note">
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipisicing elit. Ad voluptate
-                                        cupiditate inventore.
-                                    </p>
-                                </div>
-                                <div class="artworks"></div>
-                            </div>
-                        </div>
-                        <div class="bs"></div>
+                    <div class="store-i flex item-center mt-16">
+                        <img
+                            src="/assets/images/Apple Store.png"
+                            alt="Apple Store"
+                            class="mr-4"
+                        />
+                        <img
+                            src="/assets/images/Playstore.png"
+                            alt="Playstore"
+                        />
                     </div>
-                </swiper-slide>
-                <swiper-slide>
-                    <div class="banner2">
-                        <div class="container-x">
-                            <div class="flex flex-wrap">
-                                <div class="content">
-                                    <h4 class="mb-4 title" ref="title">
-                                        Meet Our Happy Member
-                                    </h4>
-                                    <h2 class="mb-8 title-2">
-                                        Become a part of our community
-                                    </h2>
-
-                                    <div class="store-i flex item-center mb-16">
-                                        <Button
-                                            class="mb-16"
-                                            label="Beconme a member"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bs"></div>
-                    </div>
-                </swiper-slide>
-                <swiper-slide>
-                    <div class="banner3">
-                        <div class="container-x">
-                            <div class="flex flex-wrap">
-                                <div class="content">
-                                    <h4 class="mb-4 title" ref="title">
-                                        Welcome to our church
-                                    </h4>
-                                    <h2 class="mb-8 title-2">
-                                        Become a part of our community
-                                    </h2>
-
-                                    <!-- <Button class="mb-16" label="Learn More" /> -->
-                                    <div class="store-i flex item-center mb-16">
-                                        <img
-                                            src="/assets/images/Apple Store.png"
-                                            alt="Apple Store"
-                                            class="mr-4"
-                                        />
-                                        <img
-                                            src="/assets/images/Playstore.png"
-                                            alt="Playstore"
-                                        />
-                                    </div>
-
-                                    <p class="note">
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipisicing elit. Ad voluptate
-                                        cupiditate inventore.
-                                    </p>
-                                </div>
-                                <div class="artworks"></div>
-                            </div>
-                        </div>
-                        <div class="bs"></div>
-                    </div>
-                </swiper-slide>
-            </swiper>
+                </div>
+            </div>
+            <div class="overlay"></div>
         </div>
 
         <!-- Meet Out Pastors -->
@@ -235,7 +159,11 @@
                 <div class="my-[30px]">
                     <div
                         class="body"
-                        v-if="results.records.events.length && !results.loading"
+                        v-if="
+                            results.records.events &&
+                            results.records.events.length &&
+                            !results.loading
+                        "
                     >
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <EventCard
@@ -334,13 +262,14 @@ export default {
         },
     },
     mounted() {
-        this.runAnim();
+        // this.runAnim();
         gsap.from(".box-right div", {
             scrollTrigger: ".box-right div",
             scale: 0.7,
             duration: 1,
             stagger: "0.2",
             ease: "Back.easeOut",
+            end: "bottom top",
         });
 
         gsap.from(".anim", {
@@ -462,6 +391,51 @@ export default {
 .banner3 {
     background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3)),
         url(/assets/images/i1.jpg);
+}
+
+.v-banner {
+    position: relative;
+    .overlay {
+        background: rgb(0 0 0 / 65%);
+        inset: 0;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+    }
+    .details {
+        position: absolute;
+        top: 100px;
+        /* left: 95px; */
+        z-index: 10;
+
+        .welcome-text-1 {
+            font-size: 60px;
+            color: #fff;
+            font-family: "Mea Culpa", cursive;
+
+            @media (max-width:640px){
+            font-size: 48px;
+            }
+        }
+
+        .welcome-text-2 {
+            color: #ffffffe3;
+            font-size: 24px;
+        }
+    }
+    video {
+        object-fit: cover;
+    }
+
+    @media (max-width: 640px) {
+        .store-i {
+            max-width: 90%;
+
+            img {
+                width: 50%;
+            }
+        }
+    }
 }
 
 .out-pastor-section {
